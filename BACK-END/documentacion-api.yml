@@ -1,0 +1,199 @@
+openapi: 3.0.0
+info:
+  title: Tareas
+  description: CRUD de Tareas
+  contact:
+    name: Aaron Jara Garcia
+    email: jara.aaron98@gmail.com
+  version: 1.0.0
+  x-implemented-by:
+    - Chile
+tags:
+  - name: CRUD de Tareas
+paths:
+  '/tarea/save':
+    post:
+      tags:
+        - CRUD de Tareas
+      summary: Guardar Tareas
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/saveRequestBody'
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/saveResponse'
+  '/tarea/list':
+    get:
+      tags:
+        - CRUD de Tareas
+      summary: Listar Tareas
+      description: Traer todas las tareas
+      operationId: getAccounts
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/tareasListResponse'
+  '/tarea/update':
+    post:
+      tags:
+        - CRUD de Tareas
+      summary: Editar Tareas
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updateRequestBody'
+      responses:
+        '200':
+          description: tarea editada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/updateResponse'
+  '/tarea/delete/{identificacion}':
+    delete:
+      tags:
+        - CRUD de Tareas
+      summary: Eliminar Tareas
+      parameters:
+        - $ref: "#/components/parameters/identificacion"
+      responses:
+        '200':
+          description: respuesta a si se elimino correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/deleteResponse'
+components:
+  schemas:
+    tareasListResponse:
+      type: object
+      properties:
+        tareas:
+          type: array
+          items:
+            $ref: '#/components/schemas/tareaResponse'
+    tareaResponse:
+      type: object
+      properties:
+        identificador:
+          description: id of Tarea auto incremet
+          type: number
+          example: 0
+        description:
+          description: description of Tarea
+          type: string
+          example: 'Descripcion de la tarea'
+        fechaCreacion:
+          description: date of creation of Tarea
+          type: string
+          example: '2022-04-13T12:12:12.100'
+        vigente:
+          description: vigencia de la Tarea
+          type: boolean
+          example: 1
+    saveRequestBody:
+      description: request body save
+      type: object
+      properties:
+        identificador:
+          description: id of Tarea auto incremet
+          type: number
+          example: 0
+        description:
+          description: description of Tarea
+          type: string
+          example: 'Descripcion de la tarea'
+        fechaCreacion:
+          description: date of creation of Tarea
+          type: string
+          example: '2022-04-13T12:12:12.100'
+        vigente:
+          description: vigencia de la Tarea
+          type: boolean
+          example: 1
+    saveResponse:
+      description: response a save
+      type: object
+      properties:
+        identificador:
+          description: id of Tarea
+          type: number
+          example: 1
+        description:
+          description: description of Tarea
+          type: string
+          example: 'Descripcion de la tarea'
+        fechaCreacion:
+          description: date of creation of Tarea
+          type: string
+          example: '2022-04-13T12:12:12.100'
+        vigente:
+          description: vigencia de la Tarea
+          type: boolean
+          example: 1
+    updateRequestBody:
+      description: request body update
+      type: object
+      properties:
+        identificador:
+          description: id of Tarea auto incremet
+          type: number
+          example: 2
+        description:
+          description: description of Tarea
+          type: string
+          example: 'Descripcion de la tarea'
+        fechaCreacion:
+          description: date of creation of Tarea
+          type: string
+          example: '2022-04-13T12:12:12.100'
+        vigente:
+          description: vigencia de la Tarea
+          type: boolean
+          example: 1
+    updateResponse:
+      description: response a update
+      type: object
+      properties:
+        identificador:
+          description: id of Tarea
+          type: number
+          example: 2
+        description:
+          description: description of Tarea
+          type: string
+          example: 'Descripcion de la tarea'
+        fechaCreacion:
+          description: date of creation of Tarea
+          type: string
+          example: '2022-04-13T12:12:12.100'
+        vigente:
+          description: vigencia de la Tarea
+          type: boolean
+          example: 1
+    deleteResponse:
+      description: delete response
+      type: string
+      example: "Se eliminó la Tarea con id 2"
+  parameters:
+    identificacion:
+      name: identificacion
+      in: path
+      required: true
+      schema:
+        type: number
+      description: |
+        id de la tarea
+      example: 2
